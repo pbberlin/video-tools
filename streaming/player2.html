@@ -1,0 +1,58 @@
+<html>
+
+<head>
+    <title>Duckling player</title>
+</head>
+
+<style>
+    body {
+        margin:  0;
+        padding: 0;
+    }
+</style>
+
+<body>
+
+    <!-- 
+        https://github.com/video-dev/hls.js/
+     -->
+
+     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+    <center>
+        <!-- <video height="400" id="video" controls></video> -->
+        <video width="100%" id="video" controls style="max-width: 1024px;" ></video>
+    </center>
+
+
+    <script>
+
+        var mediaURLTest = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8';
+        var mediaURL = 'https://fmtdownload.zew.de/fdl/download/public/.pbu/duckling/giant-mountains-1280x720/index.m3u8';
+
+        var plr = document.getElementById('video');
+
+        if (Hls.isSupported()) {
+            var hls = new Hls({
+                debug: true,
+            });
+            hls.loadSource(mediaURL);
+            hls.attachMedia(plr);
+            hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+                plr.muted = true;
+                plr.muted = false;
+                // plr.play(); // chrome prevents autoplay
+            });
+        } else if (plr.canPlayType('application/vnd.apple.mpegurl')) {
+            console.log("No Media Source Extensions (MSE)");
+            plr.src = mediaURL;
+            plr.addEventListener('canplay', function () {
+                plr.play();
+            });
+        }
+    </script>
+
+
+</body>
+
+</html>
