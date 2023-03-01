@@ -1,3 +1,5 @@
+# "C:\Program Files\Git\git-bash.exe"
+# conv2mp3.sh
 echo "Encoding -$1-"
 
 ffmpeg -i "./$1" -vn \
