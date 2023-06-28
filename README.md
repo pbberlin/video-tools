@@ -8,10 +8,11 @@
 instead right-click on the video `copy video URL`
 
 * Using [youtube-dl](https://en.wikipedia.org/wiki/Youtube-dl)  
-hosted on [github.com](https://github.com/ytdl-org/youtube-dl/releases/tag/2021.06.06)
+hosted on [github.com](https://github.com/yt-dlp/yt-dlp)
 
 ```bash
-pip install youtube-dl --upgrade
+# pip install youtube-dl --upgrade
+pip install yt-dlp    --upgrade
 ```
 
 * Put the the scripts `yt.bat`, `yt1.bat`, `yt2.bat` into your `c:\windows` directory.  
