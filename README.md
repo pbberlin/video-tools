@@ -49,3 +49,30 @@ into a streamable set of partitioned video files
 
 * For this to work, `index.m3u8`... files have to reside on a http(s) server  
 and have to emit an `allow cross domain` access header
+
+## Convert to H.256
+
+Re-encode existing `MPEG` files to `H.256` compression.
+
+Saves about two thirds of files.
+
+See `conv2h256-dir.sh`
+
+## Rotate a video
+
+<https://stackoverflow.com/questions/3937387/rotating-videos-with-ffmpeg>
+
+```bash
+
+# recode
+ffmpeg -i input.mp4 -vf "transpose=1" output.mp4
+
+# recode, maintaining aspect ratio
+#  https://stackoverflow.com/questions/8218363/maintaining-aspect-ratio-with-ffmpeg
+ffmpeg -i input.mp4 -vf "transpose=2, scale=640:-2"   output-keep-2.mp4
+ffmpeg -i input.mp4 -vf "transpose=2, scale=1080:-1"  output-keep-3.mp4
+
+
+# only change metadata
+ffmpeg -display_rotation 270 -i input.mp4 -codec copy output.mp4
+```
