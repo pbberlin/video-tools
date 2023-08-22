@@ -58,6 +58,13 @@ Saves about two thirds of files.
 
 See `conv2h256-dir.sh`
 
+## Scaling
+
+```bash
+ffmpeg -i input.mp4 -vf  scale=640:480 output.mp4
+ffmpeg -i input.mp4 -vf scale=1280:720 output.mp4
+```
+
 ## Rotate a video
 
 <https://stackoverflow.com/questions/3937387/rotating-videos-with-ffmpeg>
