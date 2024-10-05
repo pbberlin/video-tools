@@ -83,3 +83,16 @@ ffmpeg -i input.mp4 -vf "transpose=2, scale=1080:-1"  output-keep-3.mp4
 # only change metadata
 ffmpeg -display_rotation 270 -i input.mp4 -codec copy output.mp4
 ```
+
+## Advanced
+
+A few ffmpeg command lines
+
+* 01-cutouts--frame-blend-interpolate.sh
+   * rough cut 
+   * lengthen short clips using artificial slow motion 
+   * create clips from stills
+
+* 02-concat-reencode.sh  
+   * combine cuts with re-encoding - inserting stabilizing B-Frames
+   * dabbling into crossfading
