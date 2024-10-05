@@ -96,3 +96,7 @@ A few ffmpeg command lines
 * 02-concat-reencode.sh  
    * combine cuts with re-encoding - inserting stabilizing B-Frames
    * dabbling into crossfading
+
+* Reverse
+
+* Add an mp3 as audio
