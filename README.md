@@ -100,3 +100,5 @@ A few ffmpeg command lines
 * Reverse
 
 * Add an mp3 as audio
+
+* For DJI movie of August
