@@ -88,17 +88,33 @@ ffmpeg -display_rotation 270 -i input.mp4 -codec copy output.mp4
 
 A few ffmpeg command lines
 
-* 01-cutouts--frame-blend-interpolate.sh
-   * rough cut 
-   * lengthen short clips using artificial slow motion 
-   * create clips from stills
+The `^` is the line continuation char of windows cmd.  
+No spaces after the `^`
 
-* 02-concat-reencode.sh  
+For linux bash replace it with `\`.
+
+* `01-a-create-clips-cutouts.sh`  
+   * rough cut from raw video
+   * select good clips
+
+* `01-b-still-image-resize-dir.sh`, `01-b-still-image-zoom-dir.sh`
+   * take any still image - from a photo or
+      from a video - and expand it into a clip
+   * all still images need to be resized to the destination video with and height
+   * then the still can be made into small video clip with "camera pan"
+
+* `02-cutouts--frame-blend-interpolate.sh`
+   * some clips are very short - we want to lenghten them to fit the flow of the other clips
+   * we compute intermediate frames and generate a longer clip
+
+* `03-concat-reencode.sh`  
    * combine cuts with re-encoding - inserting stabilizing B-Frames
-   * dabbling into crossfading
+   * crossfading (experimental)
 
-* Reverse
+* `04-audio.sh`  
+   * replace or add audio
+
+* `reverse.sh` - make the clip play backward
 
 * Add an mp3 as audio
 
-* For DJI movie of August
