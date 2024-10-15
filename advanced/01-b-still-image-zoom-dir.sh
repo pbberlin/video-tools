@@ -2,7 +2,7 @@
 
 inpDir=./resized
 
-outDir=./zoom-top-left
+outDir=./zoomed
 mkdir "${outDir}" -p
 
 # -loop 1: loops the image indefinitely.

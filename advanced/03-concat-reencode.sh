@@ -44,6 +44,16 @@ ffmpeg -i p01.mp4 -i p02.mp4 -i p03.mp4 -i p04.mp4 -i p05.mp4 -i p06.mp4  -i p07
   -map "[outv]"  re-enc-1-9.mp4
 
 
+# nine plus four pieces
+ffmpeg -i re-enc-1-9.mp4 -i p10.mp4 -i p11.mp4 -i p12.mp4 -i p13.mp4  ^
+  -c:v libx264 -level 4.1 ^
+  -filter_complex ^
+  "[0:v:0][1:v:0][2:v:0][3:v:0][4:v:0]concat=n=5:v=1[outv]" ^
+  -crf 18 ^
+  -map "[outv]"  re-enc-1-9-13.mp4
+
+
+
 
 # three pieces - with audio
 #    this makes the syntax even more convoluted
@@ -63,45 +73,54 @@ ffmpeg -i p01.mp4 -i p02.mp4 -i p03.mp4 ^
 #    or
 # offset      - time  where fading starts - relative to the segment
 
-# duration    - duration of crossfade in seconds
+# duration    - HALF of duration of crossfade in seconds
+#   time until the first clip ENDS
 
 
-#  crossfade 2 inputs
-#     p01.mp4  is 2.5 seconds long
-#     we start at 2.2 seconds - and make it 0.6 seconds long
+# example: crossfade 2 inputs
+# where p01.mp4  is 2.5 seconds long
+#
+#       xfade=offset=2.2:duration=0.3
+#             making output 0.3 seconds shorter than sum of inputs
+#         or
+#       xfade=offset=2.0:duration=0.5
+#             making output 0.5 seconds shorter than sum of inputs
+#         or
+#       xfade=offset=1.5:duration=1.0
+#             making output 1.0 seconds shorter than sum of inputs
+
+
+# crossf-tmp1.mp4 is 0.3 seconds shorter
 ffmpeg -i p01.mp4 -i p02.mp4 ^
   -c:v libx264 -level 4.1 ^
   -filter_complex ^
-  "[0:v][1:v]xfade=transition=fade:duration=0.6:offset=2.2[outv]" ^
+  "[0:v][1:v]xfade=offset=2.2:duration=0.3[outv]" ^
   -crf 18 ^
   -map "[outv]" -an crossf-tmp1.mp4
 
 
+#  continue to add clips to previous output:
 
+#    measure exact length of privious output:
+ffprobe -i crossf-tmp1.mp4
+#     Duration 00:00:04.73
+#  4.73 seconds minus 0.3 = 4.43
 
-#  subsequent with result of previous output
-#    crossf-tmp1.mp4 is 5.033 seconds long
 ffmpeg -i crossf-tmp1.mp4 -i p03.mp4 ^
   -c:v libx264 -level 4.1 ^
   -filter_complex ^
-  "[0:v][1:v]xfade=transition=fade:duration=0.6:offset=4.7[outv]" ^
+  "[0:v][1:v]xfade=offset=4.43:duration=0.3[outv]" ^
   -crf 18 ^
   -map "[outv]" -an crossf-tmp2.mp4
 
 
 
 
-# example using start_frame instead of offset
-ffmpeg -i p01.mp4 -i p02.mp4 -filter_complex "\
-[0:v][1:v]xfade=transition=fade:duration=1:start_frame=90[outv]" \
--map "[outv]" -an output.mp4
+# ----------------------------------------------
 
-
-# the parameters get even more complex for longer chains of clips:
-
-#  crossfade 3 inputs
-ffmpeg -i p01.mp4 -i p02.mp4 -i p03.mp4 -filter_complex "\
-[0:v][1:v]xfade=transition=fade:duration=1:offset=4[v01]; \
+# we could try to combine three inputs with two crossfades...
+ffmpeg -i p01.mp4 -i p02.mp4 -i p03.mp4 -filter_complex    \
+"[0:v][1:v]xfade=transition=fade:duration=1:offset=4[v01]; \
 [v01][2:v]xfade=transition=fade:duration=1:offset=8[outv]" \
 -map "[outv]" -an re-enc-1-3-crossf.mp4
 
