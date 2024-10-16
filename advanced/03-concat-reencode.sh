@@ -106,6 +106,11 @@ ffprobe -i crossf-tmp1.mp4
 #     Duration 00:00:04.73
 #  4.73 seconds minus 0.3 = 4.43
 
+# more terse
+ffprobe -i crossf-tmp1.mp4  -show_entries format=duration -v quiet -of csv="p=0"
+
+
+
 ffmpeg -i crossf-tmp1.mp4 -i p03.mp4 ^
   -c:v libx264 -level 4.1 ^
   -filter_complex ^
