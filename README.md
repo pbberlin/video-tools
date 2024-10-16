@@ -11,7 +11,6 @@ instead right-click on the video `copy video URL`
 hosted on [github.com](https://github.com/yt-dlp/yt-dlp)
 
 ```bash
-# pip install youtube-dl --upgrade
 pip install yt-dlp    --upgrade
 ```
 
@@ -115,6 +114,4 @@ For linux bash replace it with `\`.
    * replace or add audio
 
 * `reverse.sh` - make the clip play backward
-
-* Add an mp3 as audio
 
