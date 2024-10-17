@@ -44,13 +44,16 @@ ffmpeg -i p01.mp4 -i p02.mp4 -i p03.mp4 -i p04.mp4 -i p05.mp4 -i p06.mp4  -i p07
   -map "[outv]"  re-enc-1-9.mp4
 
 
-# nine plus four pieces
-ffmpeg -i re-enc-1-9.mp4 -i p10.mp4 -i p11.mp4 -i p12.mp4 -i p13.mp4  ^
+# 13 pieces
+ffmpeg -i p01.mp4 -i p02.mp4 -i p03.mp4 -i p04.mp4 -i p05.mp4 -i p06.mp4  -i p07.mp4  -i p08.mp4  -i p09.mp4   -i p10.mp4 -i p11.mp4 -i p12.mp4 -i p13.mp4    ^
   -c:v libx264 -level 4.1 ^
   -filter_complex ^
-  "[0:v:0][1:v:0][2:v:0][3:v:0][4:v:0]concat=n=5:v=1[outv]" ^
+  "[0:v:0][1:v:0][2:v:0][3:v:0][4:v:0][5:v:0][6:v:0][7:v:0][8:v:0][9:v:0][10:v:0][11:v:0][12:v:0]concat=n=13:v=1[outv]" ^
   -crf 18 ^
-  -map "[outv]"  re-enc-1-9-13.mp4
+  -map "[outv]"  re-enc-1-13.mp4
+
+
+
 
 
 
@@ -107,7 +110,7 @@ ffprobe -i crossf-tmp1.mp4
 #  4.73 seconds minus 0.3 = 4.43
 
 # more terse
-ffprobe -i crossf-tmp1.mp4  -show_entries format=duration -v quiet -of csv="p=0"
+ffprobe -i input.mp4  -show_entries format=duration -v quiet -of csv="p=0"
 
 
 
