@@ -23,15 +23,12 @@ ffmpeg -i input.mp4 -c:v libx264 -level 5.1 -crf 18  -preset slow -g 10  -bf 4  
 # cut out -    re-encoding
 #   this creates nice clips, that are easy to play with VLC
 #   Takes some time - but is essential.
-ffmpeg -i p01.mp4 -ss 00:00:00     -to 00:00:02.500         p01-segment.mp4
-ffmpeg -i p02.mp4 -ss 00:00:00.300 -to 00:00:02.825         p02-segment.mp4
-ffmpeg -i p03.mp4 -ss 00:00:00     -to 00:00:02.500         p03-segment.mp4
-ffmpeg -i p05.mp4 -ss 00:00:00     -to 00:00:06.500         p05-segment.mp4
-ffmpeg -i p06.mp4 -ss 00:00:00     -to 00:00:01.400         p06-segment.mp4
-ffmpeg -i p07.mp4 -ss 00:00:00.267 -to 00:00:03.871         p07-segment.mp4
-ffmpeg -i p08.mp4 -ss 00:00:01.605 -to 00:00:05.711         p08-segment.mp4
-ffmpeg -i p09.mp4 -ss 00:00:00.500 -to 00:00:05.906         p09-segment.mp4
-ffmpeg -i p11.mp4 -ss 00:00:00.500                          p11-segment.mp4
+#   -c:v libx264 - much bigger but much faster
+ffmpeg -i inp.mp4  -c:v libx264 -level 5.1 -crf 18   -ss 00:04.000     -to 00:00:08.000         out-04-08.mp4
+ffmpeg -i inp.mp4  -c:v libx264 -level 5.1 -crf 18   -ss 00:17.000     -to 00:00:25.000         out-17-25.mp4
+ffmpeg -i inp.mp4  -c:v libx264 -level 5.1 -crf 18   -ss 00:38.000     -to 00:00:47.000         out-18-47.mp4
+
+
 
 
 # removing audio from  output (optional)
