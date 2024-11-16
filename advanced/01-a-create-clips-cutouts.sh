@@ -9,7 +9,7 @@ ffmpeg -i p01.mp4 -ss 00:00:00 -to 00:00:02 -c copy p01-1.mp4
 # re-encode at high quality - force regular b-frames
 # bframe settings
 #   -g  10          GOP - group of pictures size
-#   -bg  1          at least one bframe per GOP
+#   -bf  1          at least one bframe per GOP
 #   -b_strategy 0   disable adaptive behavior
 
 #
@@ -18,6 +18,20 @@ ffmpeg -i p01.mp4 -ss 00:00:00 -to 00:00:02 -c copy p01-1.mp4
 #                   50M is the maximum possible at level 4.1
 #                   for streaming at constant rate
 ffmpeg -i input.mp4 -c:v libx264 -level 5.1 -crf 18  -preset slow -g 10  -bf 4  -b_strategy 0   output.mp4
+ffmpeg -i input.mp4 -c:v libx264 -level 5.1 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0   output.mp4
+
+
+# re-encode and crop  
+#  orig 1820x900
+#  orig 1920x1080  - 1.777
+#
+#
+#  dest  960x540
+#    dx = 1920/2 - 960/2
+#    dx =    960 - 480
+#    dx =    480
+# -filter:v "crop=960:540:480:80"
+ffmpeg -i input.mkv -c:v libx264  -filter:v "crop=960:540:480:80" -level 5.1 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0   output.mp4
 
 
 # cut out -    re-encoding
