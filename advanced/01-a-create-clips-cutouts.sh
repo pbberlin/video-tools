@@ -34,7 +34,7 @@ ffmpeg -i input.mp4 -c:v libx264 -level 5.1 -crf 18  -preset slow -g  5  -bf 1  
 ffmpeg -i input.mkv -c:v libx264  -filter:v "crop=960:540:480:80" -level 5.1 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0   output.mp4
 
 
-# cut out -    re-encoding
+# clip out -    re-encoding
 #   this creates nice clips, that are easy to play with VLC
 #   Takes some time - but is essential.
 #   -c:v libx264 - much bigger but much faster

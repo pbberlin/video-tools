@@ -15,21 +15,32 @@ ffmpeg -i with-audio.mp4   \
   output-with-subs.mp4
 
 
+# ttf file in same dir
 
-ffmpeg -i wolve.mp4   \
-  -vf "drawtext=text='1':fontfile=C\\\\Windows\\\\Fonts\\\\GOTHIC.TTF:fontcolor=white:fontsize=32:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,0.0,1.92)'  , \
-       drawtext=text='2':fontfile=C\\\\Windows\\\\Fonts\\\\GOTHIC.TTF:fontcolor=white:fontsize=32:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,3.0,4.5)'   , \
-       drawtext=text='3':fontfile=C\\\\Windows\\\\Fonts\\\\GOTHIC.TTF:fontcolor=white:fontsize=32:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,4.7,6.4)'   , \
-       drawtext=text='4':fontfile=C\\\\Windows\\\\Fonts\\\\GOTHIC.TTF:fontcolor=white:fontsize=32:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,6.55,7.8)'  , \
-       drawtext=text='5':fontfile=C\\\\Windows\\\\Fonts\\\\GOTHIC.TTF:fontcolor=white:fontsize=32:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,8.0,9.4)'   , \
-       drawtext=text='6':fontfile=C\\\\Windows\\\\Fonts\\\\GOTHIC.TTF:fontcolor=white:fontsize=32:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,9.55,11.4)' , \
-       drawtext=text='7':fontfile=C\\\\Windows\\\\Fonts\\\\GOTHIC.TTF:fontcolor=white:fontsize=32:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,11.5,12.8)' , \
-       drawtext=text='8':fontfile=C\\\\Windows\\\\Fonts\\\\GOTHIC.TTF:fontcolor=white:fontsize=32:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,12.9,14.9)' , \
-       drawtext=text='9':fontfile=C\\\\Windows\\\\Fonts\\\\GOTHIC.TTF:fontcolor=white:fontsize=32:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,15.0,17.5)' , \
+ffmpeg -i input.mp4   \
+  -vf "drawtext=text='1':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,0.1,1.9)'   , \
+       drawtext=text='2':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,2.1,5.9)'   , \
+       drawtext=text='4':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,6.1,7.9)'   , \
+       drawtext=text='5':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,8.1,9.9)'   , \
+       drawtext=text='6':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,10.1,11.9)' , \
+       drawtext=text='7':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,12.1,13.9)' , \
+       drawtext=text='8':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,14.1,15.9)' , \
+       drawtext=text='9':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,16.1,17.9)' , \
+       drawtext=text='10':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,18.1,19.9)' , \
+       drawtext=text='11':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,20.1,21.9)' , \
+       drawtext=text='12':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,22.1,23.9)' , \
+       drawtext=text='13':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,24.1,25.9)' , \
+       drawtext=text='14':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,26.1,27.9)' , \
+       drawtext=text='15':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,28.1,29.9)' , \
+       drawtext=text='16':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,30.1,32.9)' , \
+       drawtext=text='17':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,33.1,35.9)' , \
   " \
   -c:a copy \
   -c:v libx264 \
-  output-with-subs.mp4
+  -level 5.1 -crf 18 \
+  -g 10  -bf 4 \
+  output-numbered.mp4
+
 
 
 
