@@ -22,17 +22,6 @@ ffmpeg -i input.mp4 -c:v libx264 -level 6.2 -crf 18  -preset slow -g  5  -bf 1  
 
 
 
-# re-encode and crop  
-#  orig 1820x900
-#  orig 1920x1080  - 1.777
-#
-#
-#  dest  960x540
-#    dx = 1920/2 - 960/2
-#    dx =    960 - 480
-#    dx =    480
-# -filter:v "crop=960:540:480:80"
-ffmpeg -i input.mkv -c:v libx264  -filter:v "crop=960:540:480:80" -level 6.2 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0   output.mp4
 
 
 # H.265 to H.264 for DaVinci Resolve

@@ -1,7 +1,14 @@
 # stackoverflow.com/questions/7333232/
 # simple concatenation - result suffers from itchy playpack
-#   do not use
-ffmpeg -f concat -i input-list.txt  -c copy concatenated.mp4
+#   only use with clips that have been preprocessed with dense b-frames
+dir /b > input-list.txt 
+# prepend "file " to the lines
+
+# 03a-concat-fix-timestamps-dir.sh - does not help
+ffmpeg -f concat   -i input-list.txt  -c copy concatenated.mp4
+
+
+
 
 
 
