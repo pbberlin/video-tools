@@ -23,40 +23,44 @@ ffmpeg -f concat   -i input-list.txt  -c copy concatenated.mp4
 #   since the quality loss is neglible, we can combine ever larger chunks
 
 
+# two  pieces
+ffmpeg -i p01.mp4 -i p02.mp4   ^
+  -c:v libx264 -level 6.2 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0 ^
+  -filter_complex ^
+  "[0:v:0][1:v:0]concat=n=2:v=1[outv]" ^
+  -map "[outv]"  re-enc-1-2.mp4
+
+
 # four pieces
 ffmpeg -i p01.mp4 -i p02.mp4 -i p03.mp4 -i p04.mp4  ^
-  -c:v libx264 -level 4.1 ^
+  -c:v libx264 -level 6.2 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0 ^
   -filter_complex ^
   "[0:v:0][1:v:0][2:v:0][3:v:0]concat=n=4:v=1[outv]" ^
-  -crf 18 ^
   -map "[outv]"  re-enc-1-4.mp4
 
 
 # seven pieces
 ffmpeg -i p01.mp4 -i p02.mp4 -i p03.mp4 -i p04.mp4 -i p05.mp4 -i p06.mp4 -i p07.mp4   ^
-  -c:v libx264 -level 4.1 ^
+  -c:v libx264 -level 6.2 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0 ^
   -filter_complex ^
   "[0:v:0][1:v:0][2:v:0][3:v:0][4:v:0][5:v:0][6:v:0]concat=n=7:v=1[outv]" ^
-  -crf 18 ^
   -map "[outv]"  re-enc-1-7.mp4
 
 
 
 # nine pieces
 ffmpeg -i p01.mp4 -i p02.mp4 -i p03.mp4 -i p04.mp4 -i p05.mp4 -i p06.mp4  -i p07.mp4  -i p08.mp4  -i p09.mp4    ^
-  -c:v libx264 -level 4.1 ^
+  -c:v libx264 -level 6.2 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0 ^
   -filter_complex ^
   "[0:v:0][1:v:0][2:v:0][3:v:0][4:v:0][5:v:0][6:v:0][7:v:0][8:v:0]concat=n=9:v=1[outv]" ^
-  -crf 18 ^
   -map "[outv]"  re-enc-1-9.mp4
 
 
 # 13 pieces
 ffmpeg -i p01.mp4 -i p02.mp4 -i p03.mp4 -i p04.mp4 -i p05.mp4 -i p06.mp4  -i p07.mp4  -i p08.mp4  -i p09.mp4   -i p10.mp4 -i p11.mp4 -i p12.mp4 -i p13.mp4    ^
-  -c:v libx264 -level 4.1 ^
+  -c:v libx264 -level 6.2 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0 ^
   -filter_complex ^
   "[0:v:0][1:v:0][2:v:0][3:v:0][4:v:0][5:v:0][6:v:0][7:v:0][8:v:0][9:v:0][10:v:0][11:v:0][12:v:0]concat=n=13:v=1[outv]" ^
-  -crf 18 ^
   -map "[outv]"  re-enc-1-13.mp4
 
 
@@ -68,9 +72,8 @@ ffmpeg -i p01.mp4 -i p02.mp4 -i p03.mp4 -i p04.mp4 -i p05.mp4 -i p06.mp4  -i p07
 # three pieces - with audio
 #    this makes the syntax even more convoluted
 ffmpeg -i p01.mp4 -i p02.mp4 -i p03.mp4 ^
-  -c:v libx264 -level 4.1 ^
+  -c:v libx264 -level 6.2 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0 ^
   -filter_complex "[0:v] [0:a] [1:v] [1:a] [2:v] [2:a] concat=n=3:v=1:a=1 [outv] [a]" ^
-  -crf 18 ^
   -map "[outv]" -map "[a]" re-enc.mp4
 
 
@@ -102,10 +105,9 @@ ffmpeg -i p01.mp4 -i p02.mp4 -i p03.mp4 ^
 
 # crossf-tmp1.mp4 is 0.3 seconds shorter
 ffmpeg -i p01.mp4 -i p02.mp4 ^
-  -c:v libx264 -level 4.1 ^
+  -c:v libx264 -level 6.2 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0 ^
   -filter_complex ^
   "[0:v][1:v]xfade=offset=2.2:duration=0.3[outv]" ^
-  -crf 18 ^
   -map "[outv]" -an crossf-tmp1.mp4
 
 
@@ -122,10 +124,9 @@ ffprobe -i input.mp4  -show_entries format=duration -v quiet -of csv="p=0"
 
 
 ffmpeg -i crossf-tmp1.mp4 -i p03.mp4 ^
-  -c:v libx264 -level 4.1 ^
+  -c:v libx264 -level 6.2 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0 ^
   -filter_complex ^
   "[0:v][1:v]xfade=offset=4.43:duration=0.3[outv]" ^
-  -crf 18 ^
   -map "[outv]" -an crossf-tmp2.mp4
 
 
