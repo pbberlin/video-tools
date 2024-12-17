@@ -1,6 +1,16 @@
 #!/bin/bash
 
-inpDir=./resized
+# inpDir=./resized
+
+inpDir="$1"
+
+if [[ -z "$inpDir" ]]; then
+        echo "work dir - first arg - missing "
+        exit 1
+else
+        echo "still images from $inpDir to zoom/pan "
+        echo "  "
+fi
 
 outDir=./zoomed
 mkdir "${outDir}" -p
