@@ -15,7 +15,7 @@
 #      5:   Good quality
 #     10: Medium quality.
 
-inpDir=.
+inpDir=./
 outDir=./resized-padded
 mkdir "${outDir}" -p
 

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# does not help
 
 #  no encoding
 
