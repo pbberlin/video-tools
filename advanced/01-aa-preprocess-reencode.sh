@@ -18,30 +18,19 @@
 #                   50M is the maximum possible at level 4.1
 #                   for streaming at constant rate
 
-ffmpeg -i input.mp4 -c:v libx264 -c:v libx264  -level 6.2 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0   output.mp4
+fn="$1"  
+outf="${fn//\.mp4/-renc.mp4}"
 
 
+if [[ -z "$fn" ]]; then
+        echo "filename - first arg - missing "
+        exit 1
+else
+        echo "converting fn '$fn' to 1 b-frame every 5 frames - '$outf' "
+        echo "  "
+fi 
 
-
-
-# H.265 to H.264 for DaVinci Resolve
-#   Some video edit software does not work well with highly compressed H.265 mp4 files.
-#   We want to re-encode to H.264 - clips get 2.5 times larger
-ffmpeg -i input.mp4 -map 0 -c:v libx264 -crf 18 -preset slower -c:a copy output-h264-18.mkv
-
-# 265 yields increased file size
-ffmpeg -i input.mp4 -map 0 -c:v libx265 -crf 23 -preset slower -c:a copy output-h265-23.mkv
-
-# this is smaller than 265:
-ffmpeg -i input.mp4 -map 0 -c:v libx264 -crf 23 -preset slower -c:a copy output-h264-23.mkv
-
-
-
-
-
-
-
-
+ffmpeg -i "./$fn"   -c:v libx264  -level 6.2 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0   $outf
 
 
 
