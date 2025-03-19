@@ -47,3 +47,5 @@ ffmpeg -i input.mp4 -c:v libx264  -filter:v "rotate=-22.5*(PI/180):bilinear=0,cr
 
 # rotate 90° 
 ffmpeg -i input.mp4 -c:v libx264  -filter:v "transpose=cclock,..."     
+
+ffmpeg -i input.mp4 -c:v libx264        -vf "transpose=1" output.mp4

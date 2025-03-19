@@ -1,4 +1,5 @@
-
+# Quality settings such as level 6.2 should be included.
+# Without - the quality is lower
 
 
 # -c:a copy - Copies the audio without re-encoding
@@ -12,6 +13,7 @@ ffmpeg -i with-audio.mp4   \
   " \
   -c:a copy \
   -c:v libx264 \
+  -level 6.2 -crf 18 \
   output-with-subs.mp4
 
 
@@ -19,13 +21,13 @@ ffmpeg -i with-audio.mp4   \
 
 ffmpeg -i input.mp4   \
   -vf "drawtext=text='1':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,0.1,1.9)'   , \
-       drawtext=text='2':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,2.1,5.9)'   , \
-       drawtext=text='4':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,6.1,7.9)'   , \
-       drawtext=text='5':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,8.1,9.9)'   , \
-       drawtext=text='6':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,10.1,11.9)' , \
-       drawtext=text='7':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,12.1,13.9)' , \
-       drawtext=text='8':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,14.1,15.9)' , \
-       drawtext=text='9':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,16.1,17.9)' , \
+        drawtext=text='2':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,2.1,5.9)'   , \
+        drawtext=text='4':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,6.1,7.9)'   , \
+        drawtext=text='5':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,8.1,9.9)'   , \
+        drawtext=text='6':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,10.1,11.9)' , \
+        drawtext=text='7':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,12.1,13.9)' , \
+        drawtext=text='8':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,14.1,15.9)' , \
+        drawtext=text='9':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,16.1,17.9)' , \
        drawtext=text='10':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,18.1,19.9)' , \
        drawtext=text='11':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,20.1,21.9)' , \
        drawtext=text='12':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=48:x=(w-text_w)/1-20:y=(h-text_h)-12:bordercolor=white:borderw=2:enable='between(t,22.1,23.9)' , \
@@ -37,7 +39,7 @@ ffmpeg -i input.mp4   \
   " \
   -c:a copy \
   -c:v libx264 \
-  -level 5.1 -crf 18 \
+  -level 6.2 -crf 18 \
   -g 10  -bf 4 \
   output-numbered.mp4
 
@@ -51,7 +53,7 @@ export LANG="en_US.UTF-8"
 
 #  seems, we dont need the colon in C:
 #    I copied the TTF files into the working dir
-ffmpeg -i with-audio.mp4   \
+ffmpeg -i input.mp4   \
   -vf "   \
       drawtext=text='Из тайги...'           :fontfile=DejaVuSans.ttf:fontcolor=black:fontsize=96:x=(w-text_w)/2:y=(h-text_h)-48:bordercolor=black:borderw=2:enable='between(t,0.2,2.0)',  \
       drawtext=text='...приходит Сашка...'  :fontfile=DejaVuSans.ttf:fontcolor=black:fontsize=96:x=(w-text_w)/2:y=(h-text_h)-48:bordercolor=black:borderw=2:enable='between(t,3.5,5.0)',  \
@@ -59,4 +61,32 @@ ffmpeg -i with-audio.mp4   \
   " \
   -c:a copy \
   -c:v libx264 \
+  -level 6.2 -crf 18 \
   output-with-subs-3.mp4
+
+
+
+
+ffmpeg -i input.mp4   \
+  -vf "drawtext=text='Flur':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=96:x=(w-text_w)/1-72:y=(h-text_h)-48:bordercolor=white:borderw=2:enable='between(t,3.4,5.3)'   , \
+       drawtext=text='Westseite':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=96:x=(w-text_w)/1-72:y=(h-text_h)-48:bordercolor=white:borderw=2:enable='between(t,5.4,6.5)'   , \
+       drawtext=text='Küche':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=96:x=(w-text_w)/1-72:y=(h-text_h)-48:bordercolor=white:borderw=2:enable='between(t,8.5,9.5)'   , \
+       drawtext=text='Bad':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=96:x=(w-text_w)/1-72:y=(h-text_h)-48:bordercolor=white:borderw=2:enable='between(t,10.3,11.7)'   , \
+       drawtext=text='Schlafen':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=96:x=(w-text_w)/1-72:y=(h-text_h)-48:bordercolor=white:borderw=2:enable='between(t,12.0,13.0)' , \
+  " \
+  -c:a copy \
+  -c:v libx264 \
+  -level 6.2 -crf 18 \
+  -g 10  -bf 4 \
+  output-numbered-bf4.mp4
+
+
+ffmpeg -i esmeralda-50secs.mp4   \
+  -vf "drawtext=text='Esmeralda'    :fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=24:x=(w-text_w)/1-24:y=(h-text_h)-24:bordercolor=white:borderw=0:enable='between(t,0.1,2.2)'   , \
+       drawtext=text='in 50 seconds':fontfile=GothicA1-Regular.ttf:fontcolor=white:fontsize=24:x=(w-text_w)/1-24:y=(h-text_h)-24:bordercolor=white:borderw=0:enable='between(t,2.2,4.5)'   , \
+  " \
+  -c:a copy \
+  -c:v libx264 \
+  -level 6.2 -crf 18 \
+  -g 10  -bf 4 \
+  esmeralda-50secs-out.mp4
