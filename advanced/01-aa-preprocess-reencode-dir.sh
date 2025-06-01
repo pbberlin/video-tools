@@ -6,17 +6,22 @@ if [[ -z "$dir" ]]; then
         echo "work dir - first arg - missing "
         exit 1
 else
-        echo "converting dir $dir to 1 b-frame every 5 frames"
+        echo "converting dir $dir to every frame is a key frame - frame rate 25"
         echo "  "
 fi
 
 
-# first  extension
-# for filename in "${dir}"/*.mkv ; do
-for filename in "${dir}"/*.mp4 ; do
-        flnBase=$(basename "$filename" .mp4)
-        echo "re-coding -${flnBase}- to 1 b-frame every 5 frames"
-        ffmpeg -i "$filename" -c:v libx264  -level 6.2 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0   "$flnBase-renc.mp4"
+# for fn in "${dir}"/*.mkv ; do
+for fn in "${dir}"/*.mp4 ; do
+        baseName="${fn%.*}"
+        outf="${baseName}-reenc.mkv"
+
+        echo "   re-encoding -${fn}- to ${outf}..."
+        ffmpeg -i "$fn"    -c:v libx264  -level 6.2 -crf 18  -preset slow   \
+        -g 1  -bf 0  -keyint_min 1    \
+        -vsync cfr   -r 25 \
+        "$outf"
+
 done
 
 

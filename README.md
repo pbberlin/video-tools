@@ -53,7 +53,8 @@ and have to emit an `allow cross domain` access header
 
 Re-encode existing `MPEG` files to `H.256` compression.
 
-Saves about two thirds of files.
+Saves about two thirds of files.  
+Editing becomes impossible.
 
 See `conv2h256-dir.sh`
 
@@ -92,11 +93,11 @@ No spaces after the `^`
 
 For linux bash replace it with `\`.
 
-* `01-a-create-clips-cutouts.sh`  
+* `01-b-clips.sh`  
    * rough cut from raw video
    * select good clips
 
-* `01-b-still-image-resize-dir.sh`, `01-b-still-image-zoom-dir.sh`
+* `01-c-still-image-resize-dir.sh`, `01-b-still-image-zoom-dir.sh`
    * take any still image - from a photo or
       from a video - and expand it into a clip
    * all still images need to be resized to the destination video with and height
@@ -106,12 +107,16 @@ For linux bash replace it with `\`.
    * some clips are very short - we want to lenghten them to fit the flow of the other clips
    * we compute intermediate frames and generate a longer clip
 
-* `03-concat-reencode.sh`  
+* `03-concat.sh`  
    * combine cuts with re-encoding - inserting stabilizing B-Frames
    * crossfading (experimental)
 
 * `04-audio.sh`  
    * replace or add audio
 
+* `05-restore.sh`  
+   * reverse preprocess
+
 * `reverse.sh` - make the clip play backward
 
+see more in advanced/README.md

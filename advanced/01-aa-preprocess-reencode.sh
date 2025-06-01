@@ -18,19 +18,24 @@
 #                   50M is the maximum possible at level 4.1
 #                   for streaming at constant rate
 
-fn="$1"  
-outf="${fn//\.mp4/-renc.mp4}"
+fn="$1"
+baseName="${fn%.*}"
+outf="${baseName}-reenc.mkv"
 
 
 if [[ -z "$fn" ]]; then
         echo "filename - first arg - missing "
         exit 1
 else
-        echo "converting fn '$fn' to 1 b-frame every 5 frames - '$outf' "
+        echo "converting fn '$fn' to every frame is a key frame - frame rate 25  - '$outf' "
         echo "  "
-fi 
+fi
 
-ffmpeg -i "./$fn"   -c:v libx264  -level 6.2 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0   $outf
+
+ffmpeg -i "$fn"    -c:v libx264  -level 6.2 -crf 18  -preset slow   \
+    -g 1  -bf 0  -keyint_min 1    \
+    -vsync cfr   -r 25 \
+    "$outf"
 
 
 
