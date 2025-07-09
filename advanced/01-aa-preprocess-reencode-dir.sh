@@ -11,8 +11,8 @@ else
 fi
 
 
-# for fn in "${dir}"/*.mkv ; do
-for fn in "${dir}"/*.mp4 ; do
+# for fn in "${dir}"/*.mp4 ; do
+for fn in "${dir}"/*.mkv ; do
         baseName="${fn%.*}"
         outf="${baseName}-reenc.mkv"
 
