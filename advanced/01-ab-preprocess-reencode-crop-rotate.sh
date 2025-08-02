@@ -6,6 +6,7 @@
 #  input   1920 x 1080  - 1.777
 #
 # -filter:v "crop=960:540:480:80"
+#            crop=width:height:x:y
 ffmpeg -i input.mkv -c:v libx264  -filter:v "crop=960:540:480:80" -level 6.2 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0   output.mp4
 
 
