@@ -3,8 +3,9 @@
 dir="$1"
 
 if [[ -z "$dir" ]]; then
-        echo "work dir - first arg - missing "
-        exit 1
+        echo "work dir - first arg - missing - assuming '.' "
+        dir="."
+        # exit 1
 else
         echo "converting dir $dir to mkv"
         echo "  "

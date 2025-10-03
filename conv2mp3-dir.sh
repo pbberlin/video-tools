@@ -1,6 +1,7 @@
 #!/bin/bash
 
-dir="$1"
+dir="${1:-.}"
+
 
 for filename in "${dir}"/*.mp4 ; do
         echo "Encoding -$filename-"

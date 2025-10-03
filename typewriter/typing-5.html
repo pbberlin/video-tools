@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Telegraph Typer Synced</title>
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    background-color: black;
+    color: white;
+    font-family: monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+  }
+  #container {
+    text-align: center;
+    line-height: 2;
+    font-size: 2rem;
+  }
+  .line {
+    display: block;
+    letter-spacing: 0.05em;
+  }
+  .char {
+    display: inline-block;
+    width: 1ch;
+    visibility: hidden;
+  }
+
+
+  /* frame capture  */
+  html, body {
+    /* width:  640px;
+    height: 480px;
+    overflow: hidden; */
+  }
+
+</style>
+</head>
+<body>
+<div id="container"></div>
+
+<audio id="clickSound" src="single-click.mp3" preload="auto"></audio>
+
+<script>
+
+  window.animationDone = false;
+
+  const lines1 = [
+    "Hey Hamster",
+    "How about Prague?",
+    "Lots of exotic accidents possible",
+    "Also lots of stress and conflict"
+  ];
+
+  const lines = [
+    "Нос Антонова",
+    "из Омска-Норильска.",
+    "Скажи: „Роберт Роули ",
+    "раскатал круглый рулет“",
+  ];
+
+
+  const hitIntervalMs = 94;
+  const lineDelayMs = 600;
+
+  function createLineElements() {
+    const container = document.getElementById('container');
+    container.innerHTML = '';
+    for (let line of lines) {
+      const spanLine = document.createElement('div');
+      spanLine.className = 'line';
+      for (let char of line) {
+        const spanChar = document.createElement('span');
+        spanChar.className = 'char';
+        spanChar.textContent = char;
+        spanLine.appendChild(spanChar);
+      }
+      container.appendChild(spanLine);
+    }
+  }
+
+  function playClickSound() {
+    const original = document.getElementById('clickSound');
+    const clone = original.cloneNode();
+    clone.volume = 0.4;
+    clone.play();
+  }
+
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async function typeText() {
+    const container = document.getElementById('container');
+    const lineElements = container.querySelectorAll('.line');
+
+    for (let i = 0; i < lineElements.length; i++) {
+      const chars = lineElements[i].querySelectorAll('.char');
+      for (let j = 0; j < chars.length; j++) {
+        chars[j].style.visibility = 'visible';
+        playClickSound();
+        await sleep(hitIntervalMs);
+      }
+      await sleep(lineDelayMs);
+    }
+
+    window.animationDone = true;
+  }
+
+  function waitForClickAndStart() {
+    function handleClick() {
+      document.removeEventListener('click', handleClick);
+      typeText();
+    }
+    document.addEventListener('click', handleClick);
+}
+
+  createLineElements();
+  waitForClickAndStart();
+
+
+
+
+</script>
+</body>
+</html>

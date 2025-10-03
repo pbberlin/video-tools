@@ -22,6 +22,17 @@ screen grab - requires perfect positioning - still no  audio
         use capture window
         add a crop filter to remove title bar etc
 
+#  from 1920x1080
+# -filter:v "crop=800:600:560:240"
+#            crop=width:height:x:y
+ffmpeg -i input1.mkv -c:v libx264  -filter:v "crop=800:600:560:240" -level 6.2 -crf 18  -preset slow -g  5  -bf 1  -b_strategy 0   input2.mkv
+
+# clip
+ffmpeg -i input2.mkv -c:v libx264 -level 6.2 -crf 18   -ss 00:00.300     -to 00:00:12.000         input3.mkv
+
+# rescale
+ffmpeg -i input3.mkv -c:v libx264  -s 1920x1080 -level 6.2 -crf 18   input4.mkv
+
 
 pip install playwright
 playwright install chromium

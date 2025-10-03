@@ -57,3 +57,18 @@ Start-(of-clip)-to-playhead   "2"
 effect - text plus note
 
 
+## make scripts executable without ./  prefix
+
+
+~/.bashrc
+~/.bash_profile
+
+touch ~/.bashrc
+vim   ~/.bashrc
+
+
+export PATH="$PATH:."
+export PATH="$PATH:/c/users/pbu/Documents/zew_work/git/other/video-tools/advanced"
+
+
+source ~/.bashrc
