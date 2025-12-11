@@ -4,9 +4,6 @@
 # DeepL (recommended): 
 # export DEEPL_API_KEY="your_key_here"
 
-# OR OpenAI fallback:
-# export OPENAI_API_KEY="your_key_here"
-
 
 from pathlib import Path
 import subprocess
@@ -14,19 +11,16 @@ import whisper
 import os
 import re
 import time
+import openai
+import requests
+import os
 
-# Optional deps (only used if their API key is present)
-try:
-    import requests
-except Exception as e:
-    print("requests not available. DeepL translation will not work unless installed.")
-    print(e)
+isSet = os.getenv("OPENAI_API_KEY")
 
-try:
-    import openai
-except Exception as e:
-    print("openai package not available. OpenAI translation will not work unless installed.")
-    print(e)
+if isSet == "":
+    print(f"must set env variable 'OPENAI_API_KEY'")
+    os._exit(-1)
+
 
 
 def extractAudio(inputVideoPath, outputAudioPath):
@@ -49,7 +43,7 @@ def extractAudio(inputVideoPath, outputAudioPath):
         print("Audio extracted to:", outputAudioPath)
 
 
-def transcribeCzechWhisper(audioPath, modelName="medium"):
+def transcribeCzechWhisper(audioPath, modelName="large"):
     print("Step 2/5: Loading Whisper model:", modelName)
     try:
         model = whisper.load_model(modelName)
@@ -289,10 +283,12 @@ def main():
     # 3) Write Czech SRT
     writeSrtFromSegments(segments, czechSrtPath)
 
+
+
     # 4) Translate Czech SRT -> English SRT (DeepL preferred; OpenAI fallback)
     csEntries = parseSrt(czechSrtPath)
 
-    deeplKey = os.environ.get("DEEPL_API_KEY", "").strip()
+    deeplKey  = os.environ.get("DEEPL_API_KEY",  "").strip()
     openaiKey = os.environ.get("OPENAI_API_KEY", "").strip()
 
     enTexts = []
