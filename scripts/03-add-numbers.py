@@ -161,7 +161,8 @@ def main():
 
         inputMp4  = Path("slideshow-crossfade.mp4")
         outputMp4 = Path("slideshow-crossfade-numbered.mp4")
-        fontPath  = Path("./fonts/GothicA1-Regular.ttf")   # change if needed
+        # fontPath  = Path("./fonts/GothicA1-Regular.ttf")   # change if needed
+        fontPath  = Path('C:\\Windows\\Fonts\\GothicA1-Regular.ttf')
 
         if not inputMp4.exists():
             raise FileNotFoundError(f"Input not found: {inputMp4}")

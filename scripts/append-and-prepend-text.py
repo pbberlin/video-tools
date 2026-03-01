@@ -123,7 +123,7 @@ def prependText(
             "ffmpeg",
             "-f", "lavfi",
             "-t", f"{durationSec}",
-            "-i", f"color=size={width}x{height}:rate=30:color=black",
+            "-i", f"color=size={width}x{height}:rate=25:color=black",
             "-f", "lavfi",
             "-t", f"{durationSec}",
             "-i", "anullsrc=channel_layout=stereo:sample_rate=48000",
@@ -149,7 +149,7 @@ def prependText(
             "ffmpeg",
             "-f", "lavfi",
             "-t", f"{durationSec}",
-            "-i", f"color=size={width}x{height}:rate=30:color=black",
+            "-i", f"color=size={width}x{height}:rate=25:color=black",
             "-i", str(inpPth),
             "-filter_complex",
             (
@@ -210,7 +210,7 @@ def appendText(
             "-i", str(inpPth),
             "-f", "lavfi",
             "-t", f"{durationSec}",
-            "-i", f"color=size={width}x{height}:rate=30:color=black",
+            "-i", f"color=size={width}x{height}:rate=25:color=black",
             "-f", "lavfi",
             "-t", f"{durationSec}",
             "-i", "anullsrc=channel_layout=stereo:sample_rate=48000",
@@ -236,7 +236,7 @@ def appendText(
             "-i", str(inpPth),
             "-f", "lavfi",
             "-t", f"{durationSec}",
-            "-i", f"color=size={width}x{height}:rate=30:color=black",
+            "-i", f"color=size={width}x{height}:rate=25:color=black",
             "-filter_complex",
             (
                 f"[1:v]drawtext=fontfile='{fontPath}':fontcolor=white:fontsize=72:"

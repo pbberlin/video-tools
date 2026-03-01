@@ -4,10 +4,12 @@ from pathlib import Path
 # ---------- Settings ----------
 targetWidth  = 1920
 targetHeight = 1080
+# targetWidth  = 3840
+# targetHeight = 2160
 secondsPerImage = 1.8
 blendDuration = 0.2
 outputFps = 25
-outputFile = "slideshow-crossfade.mp4"
+outputFile = "slideshow-crossfade.mkv"
 # ------------------------------
 
 def collectJpgsSorted():
