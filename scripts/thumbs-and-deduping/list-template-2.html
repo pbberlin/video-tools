@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<style>
+  body { font-family: sans-serif; background: #111; color: #eee; margin: 20px; }
+  .grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  @media(min-width: 768px) { .grid { grid-template-columns: 1fr 1fr; } }
+  .chunk { background: #222; padding: 10px; border-radius: 8px; }
+  .chunk img { width: 100%; height: auto; display: block; }
+  .links { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+  .link-item { background: #333; padding: 10px; border-radius: 4px; }
+  .link-item a { color: #4CAF50; text-decoration: none; font-size: 14px; font-weight: bold; display: inline-block; margin-bottom: 5px; }
+  .link-item a:hover { text-decoration: underline; }
+  .cmd-line input { width: 100%; background: #000; color: #0f0; border: 1px solid #555; padding: 6px; font-family: monospace; box-sizing: border-box; border-radius: 4px; }
+</style>
+</head>
+<body>
+<h2>{{ baseName }}</h2>
+<div class='grid'>
+{% for chunk in chunks %}
+  <div class='chunk'>
+    <img src='{{ chunk.image }}' alt='chunk'>
+    <div class='links'>
+    {% for link in chunk.links %}
+      <div class='link-item'>
+        <a href='{{ link.url }}'>Play at {{ link.displayTime }}</a>
+        <div class='cmd-line'>
+          <input type='text' value='{{ link.cmd }}' readonly onclick='this.select();'>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+{% endfor %}
+</div>
+</body>
+</html>
