@@ -1,8 +1,5 @@
-#!/usr/bin/env python3
-
 import sys
 import os
-import tempfile
 import shutil
 import json
 import math
@@ -22,7 +19,18 @@ import ffmpeg
 #  https://pypi.org/project/ffmpy/
 
 
-investigateSeconds = 10*60
+def checkInvestigateSeconds(hashData, investigateSecs, videoDuration):
+    if len(hashData) == 0:
+        return False
+    lastTime = hashData[-1].get("time", 0.0)
+    if lastTime >= investigateSecs - 2.0:
+        return True
+    if videoDuration > 0.0 and lastTime >= videoDuration - 2.0:
+        return True
+    return False
+
+
+investigateSeconds = 20*60
 
 # 10 is very sensitive
 phashJumpThreshold = 10
@@ -40,7 +48,7 @@ phashSimilarityThreshold = 25
 dirArg  = sys.argv[1] if len(sys.argv) > 1 else "."
 dirPath = Path(dirArg)
 
-templatePath = Path("list-template.html")
+templatePath = Path("list-template-2.html")
 if not templatePath.exists():
     print(f"Template not found: {templatePath}")
     sys.exit(-1)
@@ -50,10 +58,8 @@ with open(templatePath, "r", encoding="utf-8") as f:
 jinjaTemplate = jinja2.Template(templateContent)
 
 
-workSpace = dirPath / ".thumbs"  /"~frames"
-os.makedirs( workSpace,exist_ok=True )
-
-# workSpace = Path(tempfile.mkdtemp())
+workSpace = dirPath / ".thumbs" / "~frames"
+os.makedirs(workSpace, exist_ok=True)
 
 print(f"creating movie thumbs for dir {dirPath} - wsp {workSpace}")
 
@@ -79,14 +85,26 @@ try:
 
       print(f"processing: {fn}")
 
+      probe = ffmpeg.probe(str(fn))
+      videoDuration = 0.0
+      if "format" in probe and "duration" in probe["format"]:
+          videoDuration = float(probe["format"]["duration"])
+
       hashData = []
+      hashDataValid = False
+
       if outHsh.exists():
           print(f"\tphashes exist {outHsh}")
           with open(outHsh, "r") as f:
               hashData = json.load(f)
-      else:
+
+          hashDataValid = checkInvestigateSeconds(hashData, investigateSeconds, videoDuration)
+          if not hashDataValid:
+              print(f"\tphashes invalid (investigateSeconds increased). Re-hashing...")
+              hashData = []
+
+      if not hashDataValid:
           print(f"\tphashes new for {fn}")
-          probe = ffmpeg.probe(str(fn))
           videoStream = None
           for idx2, stream in enumerate(probe['streams']):
               if stream['codec_type'] == 'video':
@@ -105,7 +123,9 @@ try:
 
           print(f"\t  fps detection {fps}")
 
-          hashWorkDir = Path(tempfile.mkdtemp(dir=workSpace, prefix="hashframes."))
+          hashWorkDir = workSpace / f"{baseName.name}-hashframes"
+          os.makedirs(hashWorkDir, exist_ok=True)
+
           (
               ffmpeg
               .input( str(fn), t=investigateSeconds)
@@ -121,7 +141,7 @@ try:
 
           for idx2, frameFile in enumerate(extractedFiles):
               if idx2 % 325 == 0:
-                  print(f"\t  phash for frame {idx2:5} ")
+                  print(f"\t  phash frame {idx2:5} ")
 
               img = Image.open(frameFile)
               h = str(imagehash.phash(img))
@@ -130,8 +150,6 @@ try:
 
           with open(outHsh, "w") as f:
               json.dump(hashData, f, indent=2)
-
-          shutil.rmtree(hashWorkDir, ignore_errors=True)
 
       cutPoints = [0.0]
       last10Dists = []
@@ -205,28 +223,39 @@ try:
 
       tsList = filteredTsList
 
-      workDir = Path(tempfile.mkdtemp(dir=workSpace, prefix="frames."))
+      workDir = workSpace / f"{baseName.name}-frames"
+      os.makedirs(workDir, exist_ok=True)
+
+      cacheDir = workSpace / f"{baseName.name}-cache"
+      os.makedirs(cacheDir, exist_ok=True)
 
       # extract frames
       #     seek before -i for faster, accurate cuts
       for idx2, t in enumerate(tsList):
         numStr = f"{idx2:04d}"
         frameOut = workDir / f"frame_{numStr}.png"
-        
+        cachedFrame = cacheDir / f"frame_{t:09.3f}.png"
+
+        if cachedFrame.exists():
+            shutil.copy(cachedFrame, frameOut)
+            continue
+
         hh      = int(t // 3600)
         mm      = int((t % 3600) // 60)
         ss      = int(t % 60)
         timeStr = f"{hh:02d}\\:{mm:02d}\\:{ss:02d}"
-        
+
         vfStr = f"scale=1600:-2,drawtext=text='{timeStr}':x=w-tw-20:y=h-th-20:fontsize=48:fontcolor=white:box=1:boxcolor=black@0.6"
-        
+
         (
             ffmpeg
             .input(str(fn), ss=t)
-            .output(str(frameOut), vframes=1, vf=vfStr)
+            .output(str(cachedFrame), vframes=1, vf=vfStr)
             .overwrite_output()
             .run(quiet=True)
         )
+
+        shutil.copy(cachedFrame, frameOut)
 
 
       # dynamic grid from N frames
@@ -262,35 +291,35 @@ try:
       # Series of 2x2 tiles
       chunkSize = 4
       numChunks = math.ceil(len(tsList) / chunkSize)
-      
+
       chunkList = []
       for idx2 in range(numChunks):
           chunkList.append(idx2)
-          
+
       chunksData = []
-          
+
       for idx2, chunkIdx in enumerate(chunkList):
           chunkDir = workDir / f"chunk_{chunkIdx:03d}"
           chunkDir.mkdir(parents=True, exist_ok=True)
-          
+
           chunkFrames = []
           for idx3, t in enumerate(tsList):
               if idx3 >= chunkIdx * chunkSize and idx3 < (chunkIdx + 1) * chunkSize:
                   chunkFrames.append(t)
-                  
+
           for idx3, t in enumerate(chunkFrames):
               srcIdx = chunkIdx * chunkSize + idx3
-              srcFrame = workDir  / f"frame_{srcIdx:04d}.png"
+              srcFrame = workDir / f"frame_{srcIdx:04d}.png"
               dstFrame = chunkDir / f"frame_{idx3:04d}.png"
               shutil.copy(srcFrame, dstFrame)
-              
+
           chunkFrameInput = str(chunkDir / "frame_%04d.png")
           outPngChunk = baseName.parent / ".thumbs" / f"{baseName.name}-thumb-{chunkIdx+1:03d}.png"
-          
+
           cCols = 2
           cRows = math.ceil(len(chunkFrames) / cCols) if cCols > 0 else 1
           cTileStr = f"tile={cCols}x{cRows}:padding=10:margin=10,format=rgb24,scale=1600:-2"
-          
+
           (
               ffmpeg
               .input(chunkFrameInput, framerate=1)
@@ -304,27 +333,33 @@ try:
               "image": outPngChunk.name,
               "links": []
           }
-          
+
           for idx3, t in enumerate(chunkFrames):
               hh = int(t // 3600)
               mm = int((t % 3600) // 60)
               ss = int(t % 60)
               displayTime = f"{hh:02d}:{mm:02d}:{ss:02d}"
-              
+
               # mpv command line syntax: mpv --start=12.34 "../video.mp4"
               # Custom protocol link format. Requires OS registry configuration to pass arguments to mpv.exe
               fileUri = fn.resolve().as_uri()
               link = f"mpv://--start={t}/{fileUri}"
-              
+
+              mpvCmd = f'"C:\\Program Files\\mpv\\mpv.exe" --start={t} "{fn.resolve()}"'
+
               chunkDict["links"].append({
                   "url": link,
-                  "displayTime": displayTime
+                  "displayTime": displayTime,
+                  "cmd": mpvCmd
               })
-              
+
           chunksData.append(chunkDict)
 
-      htmlRendered = jinjaTemplate.render(baseName=baseName.name, chunks=chunksData)
-      
+      htmlRendered = jinjaTemplate.render(
+          baseName=baseName.name, 
+          chunks=chunksData,
+        )
+
       with open(htmlOut, "w", encoding="utf-8") as f:
           f.write(htmlRendered)
       print(f"\twrote: {htmlOut}")

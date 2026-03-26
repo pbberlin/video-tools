@@ -25,7 +25,7 @@
     <div class='links'>
     {% for link in chunk.links %}
       <div class='link-item'>
-        <a href='{{ link.url }}'>Play at {{ link.displayTime }}</a>
+        <!-- <a href='{{ link.url }}'>Play at {{ link.displayTime }}</a> -->
         <div class='cmd-line'>
           <input type='text' value='{{ link.cmd }}' readonly onclick='this.select();'>
         </div>
