@@ -1,5 +1,26 @@
 #!/bin/bash
 
+
+# Step a
+# re-encode for easy editing
+# ============================
+
+
+# re-encode at high quality - force regular b-frames
+# bframe settings
+#
+#    -level         https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding_tiers_and_levels
+#   -g  10          GOP - group of pictures size
+#   -bf  1          at least one bframe per GOP
+#   -b_strategy 0   disable adaptive behavior
+
+#
+#   -crf  0         no compression ??
+#   -crf 18         max quality - variable bitrate
+#   -b:v 50M        max constant bitrate -
+#                   50M is the maximum possible at level 4.1
+#                   for streaming at constant rate
+
 dir="$1"
 # dir="${1:-.}"
 
