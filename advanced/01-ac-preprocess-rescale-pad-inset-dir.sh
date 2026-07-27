@@ -24,6 +24,8 @@ for fn in "${dir}"/*.mkv ; do
         # first step - add padding - increasing width and height of output
         ffmpeg -i "$fn" -c:v libx264   \
                 -level 6.2 -crf 18  -preset slow \
+                -g 1  -bf 0  -keyint_min 1    \
+                -vsync cfr   -r 25 \
                 -vf "pad=iw*1.15:ih*1.15:(ow-iw)/2:0:black" \
                 "./${outDir}/$outf1"
 
@@ -35,6 +37,8 @@ for fn in "${dir}"/*.mkv ; do
 
         ffmpeg -i "./${outDir}/$outf1" -c:v libx264   \
                 -level 6.2 -crf 18  -preset slow \
+                -g 1  -bf 0  -keyint_min 1    \
+                -vsync cfr   -r 25 \
                 -vf "scale=$prevWidth:$prevHeight" \
                 "./${outDir}/$outf2"
 done
