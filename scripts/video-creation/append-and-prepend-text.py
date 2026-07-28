@@ -140,8 +140,21 @@ def prependText(
             ),
             "-map", "[v]",
             "-map", "[a]",
+
+            # high quality
+            "-c:v",        "libx264",
+            "-level",      "6.2",
+            "-crf",        "18",
+            "-preset",     "slow",
+            "-g",          "1",
+            "-bf",         "0",
+            "-keyint_min", "1",
+            "-vsync",      "cfr",
+
             str(outPth)
         ]
+
+
 
     else:
 
@@ -162,6 +175,17 @@ def prependText(
                 f"[blackv][1:v]concat=n=2:v=1:a=0[v]"
             ),
             "-map", "[v]",
+
+            # high quality
+            "-c:v",        "libx264",
+            "-level",      "6.2",
+            "-crf",        "18",
+            "-preset",     "slow",
+            "-g",          "1",
+            "-bf",         "0",
+            "-keyint_min", "1",
+            "-vsync",      "cfr",
+
             str(outPth)
         ]
 
@@ -226,6 +250,17 @@ def appendText(
             ),
             "-map", "[v]",
             "-map", "[a]",
+
+            # high quality
+            "-c:v",        "libx264",
+            "-level",      "6.2",
+            "-crf",        "18",
+            "-preset",     "slow",
+            "-g",          "1",
+            "-bf",         "0",
+            "-keyint_min", "1",
+            "-vsync",      "cfr",
+
             str(outPth)
         ]
 
@@ -249,6 +284,17 @@ def appendText(
             ),
             "-map", "[v]",
             "-map", "0:a?",
+
+            # high quality
+            "-c:v",        "libx264",
+            "-level",      "6.2",
+            "-crf",        "18",
+            "-preset",     "slow",
+            "-g",          "1",
+            "-bf",         "0",
+            "-keyint_min", "1",
+            "-vsync",      "cfr",
+
             str(outPth)
         ]
 
@@ -260,33 +306,33 @@ def appendText(
 
 
 # fontPathRaw = getFontPath("GothicA1-Regular.ttf")
-fontPathRaw = getFontPath("MiriamMonoCLM-Book.ttf")
-# fontPathRaw = getFontPath("arial.ttf")
+# fontPathRaw = getFontPath("MiriamMonoCLM-Book.ttf")
+fontPathRaw = getFontPath("arial.ttf")
 fontPath    = normalizePathForFfmpeg(fontPathRaw)
 print(f"font path is {fontPath}")
 
 
 
-inpF = Path("input.mkv")
+inpF = Path("p1.mkv")
 
-outF1 = inpF.with_name( inpF.stem + "-1-text-apppend" + inpF.suffix )
-outF2 = inpF.with_name( inpF.stem + "-2-text-prepend" + inpF.suffix )
+outF1 = inpF.with_name( inpF.stem + "-1-text-prepend" + inpF.suffix )
+outF2 = inpF.with_name( inpF.stem + "-2-text-append"  + inpF.suffix )
 
 
 prependText(
     inpF,
-    outF1, 
-    "Nose is yearning\n\nfor excitement",
+    outF1,
+    "AI vs Humans\n\nsimple game\n(seemingly)",
     fontPath,
-    2.8,
+    1.3,
 )
 
 appendText(
     outF1,
-    outF2, 
-    "She looks *almost* as\n\nhelpless as you.",
+    outF2,
+    "Eddie\nbest player\namong 10 million",
     fontPath,
-    3.5,
+    0.8,
 )
 
 
