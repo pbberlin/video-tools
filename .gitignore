@@ -1,14 +1,2 @@
-~*
-*.log
-*.lnk
-*.key
-*.pem
-*.cert
-*.exe
-*.exe~
-
-tmp/*
-tmp*
-
-**/__pycache__/**
-**/video-creation/media/**
+dupes.json
+**/__pycache__
