@@ -30,11 +30,13 @@ if [[ -z "$dir" ]]; then
         # exit 1
 else
         echo "converting dir $dir to every frame is a key frame - frame rate 25"
-        echo "  "
+        echo " "
 fi
+# nullglob   - loop doesn't break if a specific file type is missing
+# nocaseglob - match .MP4, .and .mp4
+shopt -s nullglob nocaseglob
 
 
-# for fn in "${dir}"/*.mp4 ; do
 for fn in "${dir}"/*.mkv ; do
         baseName="${fn%.*}"
         outf="${baseName}-reenc.mkv"
