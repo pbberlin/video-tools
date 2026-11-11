@@ -1,1 +1,1 @@
-yt-dlp  -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]" --write-sub  --recode-video mp4  %1
+python -m yt_dlp -f "bestvideo[height<=1080]+bestaudio/best[height<=1080]" --write-sub  --recode-video mp4  %1
