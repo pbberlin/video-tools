@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "use to-jpg.py"
+exit 1
+
 dir="$1"
 deletePng="$2"
 
